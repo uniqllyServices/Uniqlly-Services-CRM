@@ -4,394 +4,204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Uniqlly Services CRM System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
         body {
-            background: #f0f4f8;
-            color: #333;
-            display: flex;
-            min-height: 100vh;
-            transition: all 0.3s ease-in-out;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+            transition: background-color 0.3s;
         }
-
         header {
             background-color: #1e40af;
             color: white;
-            padding: 1.2rem;
+            padding: 20px; 
             text-align: center;
-            width: 100%;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
-
-        nav.sidebar {
-            width: 250px;
-            background: #1e3a8a;
-            color: white;
-            padding: 1.5rem;
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            transition: width 0.3s;
+        main {
+            padding: 20px;
         }
-
-        nav.sidebar a {
-            color: white;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            display: block;
-            border-radius: 0.5rem;
-            margin: 0.5rem 0;
-            transition: background 0.3s;
-        }
-
-        nav.sidebar a:hover {
-            background: #2563eb;
-        }
-
-        .container {
-            flex-grow: 1;
-            padding: 2rem;
-            margin-left: 250px;
-            transition: margin-left 0.3s;
-        }
-
-        @media (max-width: 768px) {
-            nav.sidebar {
-                width: 60px;
-            }
-
-            .container {
-                margin-left: 60px;
-            }
-        }
-
-        h2 {
-            color: #1e40af;
-            margin-bottom: 1rem;
-        }
-
-        form,
-        ul {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        input,
-        select,
-        button {
-            padding: 0.6rem;
-            border-radius: 0.5rem;
-            border: 1px solid #ccc;
-            transition: border-color 0.3s;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: #1e40af;
-            outline: none;
-        }
-
-        button {
-            background: #1e40af;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s;
-            border: none;
-        }
-
-        button:hover {
-            background: #2563eb;
-        }
-
-        .alert-box {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .alert-error {
-            background-color: #fef2f2;
-            color: #dc2626;
-        }
-
-        .alert-success {
-            background-color: #ecfccb;
-            color: #65a30d;
-        }
-
-        #clock {
-            text-align: right;
-            padding-right: 1rem;
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-
         footer {
             text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
-            background: #e5e7eb;
-            font-size: 0.9rem;
+            padding: 10px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            background-color: #e5e7eb;
         }
-
         .hidden {
             display: none;
         }
-
-        .feature {
+        form {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            flex-direction: column; 
+            gap: 10px; 
         }
-
+        input, select {
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        button {
+            background-color: #1e40af; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            cursor: pointer; 
+        }
+        button:hover {
+            background-color: #2563eb; 
+        }
+        .tab {
+            cursor: pointer; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            background-color: #ffffff; 
+            transition: background-color 0.3s; 
+        }
+        .tab:hover {
+            background-color: #f1f1f1; 
+        }
+        .dark-mode {
+            background-color: #333; 
+            color: white; 
+        }
+        .dark-mode input, .dark-mode select {
+            background-color: #444; 
+            color: white; 
+            border: 1px solid #666; 
+        }
+        .dark-mode button {
+            background-color: #555; 
+        }
     </style>
 </head>
-
 <body>
     <header>
         <h1>Uniqlly Services CRM System</h1>
-        <p>Powered by Uniqlly Services</p>
-        <div id="clock"></div>
     </header>
-
-    <nav class="sidebar">
-        <a href="#" onclick="navigateTo('login')">Login</a>
-        <a href="#" id="adminBtn" class="hidden" onclick="navigateTo('admin')">Admin Panel</a>
-        <a href="#" id="crmBtn" class="hidden" onclick="navigateTo('crm')">CRM Features</a>
-        <a href="#" id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
-    </nav>
-
-    <div class="container" id="login">
-        <h2>Login</h2>
-        <form onsubmit="return loginUser(event)">
-            <label for="role">Role</label>
-            <select id="role" required>
-                <option value="customer">Customer</option>
-                <option value="employee">Employee</option>
-                <option value="admin">Admin</option>
-            </select>
-            <label>Email</label>
-            <input type="email" id="uuid" required>
-            <label>Password</label>
-            <input type="password" id="password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p id="login-message" class="alert-box hidden"></p>
-    </div>
-
-    <div class="container hidden" id="admin">
-        <h2>Admin Panel</h2>
-
-        <h3>Create New User Role</h3>
-        <form onsubmit="return createUser(event)">
-            <label>Role</label>
-            <select id="new-role">
-                <option value="customer">Customer</option>
-                <option value="employee">Employee</option>
-                <option value="admin">Admin</option>
-            </select>
-            <label>Email</label>
-            <input type="email" id="new-uuid" required>
-            <label>Password</label>
-            <input type="password" id="new-password" required>
-            <button type="submit">Create User</button>
-        </form>
-        <p id="admin-message" class="alert-box hidden"></p>
-
-        <h3>Change Admin Password</h3>
-        <form onsubmit="return changePassword(event)">
-            <label>Current Password</label>
-            <input type="password" id="current-password" required>
-            <label>New Password</label>
-            <input type="password" id="new-admin-password" required>
-            <button type="submit">Change Password</button>
-        </form>
-        <p id="password-change-message" class="alert-box hidden"></p>
-    </div>
-
-    <div class="container hidden" id="crm">
-        <h2>CRM Features</h2>
-
-        <div class="feature">
-            <button onclick="showFeature('customerData')">Customer Data Management</button>
-            <button onclick="showFeature('salesTracking')">Sales Tracking and Analytics</button>
-            <button onclick="showFeature('marketing')">Marketing Campaigns</button>
-            <button onclick="showFeature('communication')">Communication Tools</button>
-            <button onclick="showFeature('leadManagement')">Lead Management</button>
-            <button onclick="showFeature('taskManagement')">Task Management</button>
-            <button onclick="showFeature('accessControl')">Access Control by Role and ID</button>
-            <button onclick="showFeature('performanceDashboard')">Performance Dashboards</button>
-            <button onclick="showFeature('downloadReports')">Download Reports</button>
+    <main>
+        <div id="login-page">
+            <h2>Login</h2>
+            <form id="login-form" onsubmit="return handleLogin(event)">
+                <select id="role" required>
+                    <option value="">Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="employee">Employee</option>
+                    <option value="customer">Customer</option>
+                </select>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="login-message" class="hidden"></p>
+            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
         </div>
 
-        <div id="feature-display" class="hidden">
-            <h3 id="feature-title"></h3>
-            <div id="feature-content"></div>
+        <div id="admin-panel" class="hidden">
+            <h2>Admin Panel</h2>
+            <button class="tab" onclick="showTab('create-user')">Create User</button>
+            <button class="tab" onclick="showTab('task-report')">Tasks & Reports</button>
+            <button class="tab" onclick="showTab('daily-login')">Daily Login Report</button>
+            <button class="tab" onclick="showTab('services')">Services</button>
+            <button class="tab" onclick="showTab('payment')">Payment Management</button>
+            <div id="admin-content">
+                <div id="create-user" class="hidden">
+                    <h3>Create User</h3>
+                    <form onsubmit="return createUser(event)">
+                        <select id="user-role" required>
+                            <option value="employee">Employee</option>
+                            <option value="customer">Customer</option>
+                        </select>
+                        <input type="email" id="new-email" placeholder="Email" required>
+                        <input type="password" id="new-password" placeholder="Password" required>
+                        <button type="submit">Create User</button>
+                    </form>
+                </div>
+                <div id="task-report" class="hidden">
+                    <h3>Task and Report Management</h3>
+                    <!-- Task and report management functionality goes here -->
+                </div>
+                <div id="daily-login" class="hidden">
+                    <h3>Daily Login Report</h3>
+                    <!-- Daily login report functionality goes here -->
+                </div>
+                <div id="services" class="hidden">
+                    <h3>Services Management</h3>
+                    <!-- Services management functionality goes here -->
+                </div>
+                <div id="payment" class="hidden">
+                    <h3>Payment Management</h3>
+                    <!-- Payment management functionality goes here -->
+                </div>
+            </div>
+        </div>
+        
+        <div id="employee-panel" class="hidden">
+            <h2>Employee Dashboard</h2>
+            <!-- Employee related functionalities go here -->
         </div>
 
-        <footer>
-            © 2025 Uniqlly Services. All rights reserved.
-        </footer>
-    </div>
+        <div id="customer-panel" class="hidden">
+            <h2>Customer Dashboard</h2>
+            <!-- Customer related functionalities go here -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Uniqlly Services. All rights reserved.</p>
+    </footer>
 
     <script>
-        const users = {
-            admin: { uuid: 'uniqllyservices@gmail.com', password: 'Admin@123', locked: false, attempts: 0 },
-            employee: { uuid: 'emp001@gmail.com', password: 'emp@2025', locked: false, attempts: 0 },
-            customer: { uuid: 'cust001@gmail.com', password: 'cust@2025', locked: false, attempts: 0 }
-        };
+        let currentRole = null;
 
-        let currentUser = null;
-
-        // Update the clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleString();
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // Navigate between sections
-        function navigateTo(section) {
-            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
-            document.getElementById(section).classList.remove('hidden');
-        }
-
-        // Logout user
-        function logout() {
-            currentUser = null;
-            resetButtons();
-            navigateTo('login');
-        }
-
-        function resetButtons() {
-            document.getElementById('logoutBtn').classList.add('hidden');
-            document.getElementById('adminBtn').classList.add('hidden');
-            document.getElementById('crmBtn').classList.add('hidden');
-        }
-
-        // Handle user login
-        function loginUser(event) {
+        function handleLogin(event) {
             event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
             const role = document.getElementById('role').value;
-            const uuid = document.getElementById('uuid').value.trim();
-            const password = document.getElementById('password').value.trim();
             const message = document.getElementById('login-message');
-
             message.classList.add('hidden');
             message.textContent = '';
 
-            if (users[role].locked) {
-                message.classList.remove('hidden');
-                message.textContent = 'Account locked. Contact admin.';
-                return;
-            }
-
-            if (users[role].uuid === uuid && users[role].password === password) {
-                currentUser = role;
-                users[role].attempts = 0;
-                message.classList.remove('hidden');
-                message.textContent = 'Login successful.';
-                setTimeout(() => {
-                    message.textContent = '';
-                    document.getElementById('logoutBtn').classList.remove('hidden');
-                    if (role === 'admin') {
-                        document.getElementById('adminBtn').classList.remove('hidden');
-                        navigateTo('admin');
-                    } else {
-                        document.getElementById('crmBtn').classList.remove('hidden');
-                        navigateTo('crm');
-                    }
-                }, 1000);
+            // Simulated login process; you should replace this with actual authentication logic
+            if (role === 'admin' && email === "admin@example.com" && password === "admin123") {
+                currentRole = 'admin';
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                message.textContent = 'Welcome, Admin!';
+            } else if (role === 'employee' && email === "employee@example.com" && password === "employee123") {
+                currentRole = 'employee';
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('employee-panel').classList.remove('hidden');
+                message.textContent = 'Welcome, Employee!';
+            } else if (role === 'customer' && email === "customer@example.com" && password === "customer123") {
+                currentRole = 'customer';
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('customer-panel').classList.remove('hidden');
+                message.textContent = 'Welcome, Customer!';
             } else {
-                users[role].attempts += 1;
-                if (users[role].attempts >= 3) {
-                    users[role].locked = true;
-                    message.classList.remove('hidden');
-                    message.textContent = 'Account locked due to too many failed attempts. Contact admin.';
-                    return;
-                }
+                message.textContent = 'Invalid login credentials.';
                 message.classList.remove('hidden');
-                message.textContent = 'Invalid credentials.';
             }
         }
 
-        // Create a new user
         function createUser(event) {
             event.preventDefault();
-            const uuid = document.getElementById('new-uuid').value;
-            const password = document.getElementById('new-password').value;
-            const role = document.getElementById('new-role').value;
-
-            // Assign the user the defined structure if not exists
-            if (!users[role]) {
-                users[role] = { uuid, password, locked: false, attempts: 0 };
-                document.getElementById('admin-message').textContent = `${role.toUpperCase()} user created successfully.`;
-            } else {
-                document.getElementById('admin-message').textContent = `${role.toUpperCase()} already exists.`;
-            }
-            document.getElementById('admin-message').classList.remove('hidden');
+            alert("User creation logic can be implemented here.");
+            // Implement actual logic to create a user (e.g., save to a database)
         }
 
-        // Change admin password
-        function changePassword(event) {
-            event.preventDefault();
-            const currentPassword = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-admin-password').value;
-            const message = document.getElementById('password-change-message');
-
-            if (users.admin.password === currentPassword) {
-                users.admin.password = newPassword;
-                message.classList.remove('hidden');
-                message.textContent = 'Password changed successfully!';
-            } else {
-                message.classList.remove('hidden');
-                message.textContent = 'Current password is incorrect!';
-            }
+        function showTab(tabId) {
+            const adminContent = document.getElementById('admin-content');
+            adminContent.querySelectorAll('div').forEach(tab => {
+                tab.classList.add('hidden');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
         }
 
-        // Show feature function
-        function showFeature(feature) {
-            const titleMap = {
-                customerData: "Customer Data Management",
-                salesTracking: "Sales Tracking and Analytics",
-                marketing: "Marketing Campaigns",
-                communication: "Communication Tools",
-                leadManagement: "Lead Management",
-                taskManagement: "Task Management",
-                accessControl: "Access Control by Role and ID",
-                performanceDashboard: "Performance Dashboards",
-                downloadReports: "Download Reports"
-            };
-
-            const contentMap = {
-                customerData: "Manage customer data and interactions effectively.",
-                salesTracking: "Track sales performance and generate analytics.",
-                marketing: "Create and manage marketing campaigns.",
-                communication: "Tools to communicate internally and externally.",
-                leadManagement: "Manage potential sales leads and track progress.",
-                taskManagement: "Create and manage tasks for team members.",
-                accessControl: "Control user access based on role or ID.",
-                performanceDashboard: "View performance metrics and dashboards.",
-                downloadReports: "Download various reports based on data."
-            };
-
-            document.getElementById('feature-title').textContent = titleMap[feature];
-            document.getElementById('feature-content').textContent = contentMap[feature];
-
-            const featureDisplay = document.getElementById('feature-display');
-            featureDisplay.classList.remove('hidden');
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
         }
     </script>
 </body>
