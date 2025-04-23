@@ -23,7 +23,6 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* Header Styles */
         header {
             background-color: #1e40af;
             color: white;
@@ -35,7 +34,6 @@
             z-index: 1000;
         }
 
-        /* Sidebar Styles */
         nav.sidebar {
             width: 250px;
             background: #1e3a8a;
@@ -44,7 +42,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
-            transition: width 0.3s ease;
+            transition: width 0.3s;
         }
 
         nav.sidebar a {
@@ -61,7 +59,6 @@
             background: #2563eb;
         }
 
-        /* Main Content Styles */
         .container {
             flex-grow: 1;
             padding: 2rem;
@@ -74,17 +71,11 @@
                 width: 60px;
             }
 
-            nav.sidebar a {
-                text-align: center;
-                padding: 0.6rem;
-            }
-
             .container {
                 margin-left: 60px;
             }
         }
 
-        /* Form and Button Styles */
         h2 {
             color: #1e40af;
             margin-bottom: 1rem;
@@ -99,7 +90,6 @@
 
         input,
         select,
-        textarea,
         button {
             padding: 0.6rem;
             border-radius: 0.5rem;
@@ -108,8 +98,7 @@
         }
 
         input:focus,
-        select:focus,
-        textarea:focus {
+        select:focus {
             border-color: #1e40af;
             outline: none;
         }
@@ -126,7 +115,6 @@
             background: #2563eb;
         }
 
-        /* Alert and Message Styles */
         .alert-box {
             padding: 1rem;
             border-radius: 0.5rem;
@@ -150,7 +138,6 @@
             color: #1e3a8a;
         }
 
-        /* Footer Styles */
         footer {
             text-align: center;
             margin-top: 2rem;
@@ -164,17 +151,14 @@
 <body>
     <header>
         <h1>Uniqlly Services CRM System</h1>
-        <p>CRM | Marketing | Payroll | Lead Generation | HR Management</p>
+        <p>Powered by Uniqlly Services</p>
         <div id="clock"></div>
     </header>
 
     <nav class="sidebar">
         <a href="#" onclick="navigateTo('login')">Login</a>
         <a href="#" id="adminBtn" class="hidden" onclick="navigateTo('admin')">Admin Panel</a>
-        <a href="#" id="crmBtn" class="hidden" onclick="navigateTo('crm')">CRM</a>
-        <a href="#" id="hrBtn" class="hidden" onclick="navigateTo('hr')">HR</a>
-        <a href="#" id="marketingBtn" class="hidden" onclick="navigateTo('marketing')">Marketing</a>
-        <a href="#" id="payrollBtn" class="hidden" onclick="navigateTo('payroll')">Payroll</a>
+        <a href="#" id="crmBtn" class="hidden" onclick="navigateTo('crm')">CRM Features</a>
         <a href="#" id="logoutBtn" class="hidden" onclick="logout()">Logout</a>
     </nav>
 
@@ -182,7 +166,7 @@
         <h2>Login</h2>
         <form onsubmit="return loginUser(event)">
             <label for="role">Role</label>
-            <select id="role">
+            <select id="role" required>
                 <option value="customer">Customer</option>
                 <option value="employee">Employee</option>
                 <option value="admin">Admin</option>
@@ -198,56 +182,50 @@
 
     <div class="container hidden" id="admin">
         <h2>Admin Panel</h2>
+        <h3>Create New User Role</h3>
         <form onsubmit="return createUser(event)">
-            <label>Assign Feature</label>
-            <select id="feature">
-                <option value="crm">CRM</option>
-                <option value="marketing">Marketing</option>
-                <option value="payroll">Payroll</option>
-                <option value="lead">Lead Generation</option>
-                <option value="hr">HR Management</option>
-            </select>
-            <label>User Role</label>
+            <label>Role</label>
             <select id="new-role">
                 <option value="customer">Customer</option>
                 <option value="employee">Employee</option>
+                <option value="admin">Admin</option>
             </select>
             <label>Email</label>
             <input type="email" id="new-uuid" required>
             <label>Password</label>
             <input type="password" id="new-password" required>
-            <button type="submit">Create</button>
+            <button type="submit">Create User</button>
         </form>
         <p id="admin-message" class="alert-box hidden"></p>
+
+        <h3>Change Admin Password</h3>
+        <form onsubmit="return changePassword(event)">
+            <label>Current Password</label>
+            <input type="password" id="current-password" required>
+            <label>New Password</label>
+            <input type="password" id="new-admin-password" required>
+            <button type="submit">Change Password</button>
+        </form>
+        <p id="password-change-message" class="alert-box hidden"></p>
     </div>
 
     <div class="container hidden" id="crm">
         <h2>CRM Features</h2>
         <ul>
             <li>Customer Data Management</li>
-            <li>Sales Tracking</li>
+            <li>Sales Tracking and Analytics</li>
             <li>Marketing Campaigns</li>
             <li>Communication Tools</li>
             <li>Lead Management</li>
-            <li>Task Scheduling</li>
+            <li>Task Management</li>
+            <li>Access Control by Role and ID</li>
+            <li>Performance Dashboards</li>
+            <li>Download Reports</li>
         </ul>
-        <button onclick="runAiAnalysis()">Run AI Analysis</button>
-        <div id="ai-alerts"></div>
-    </div>
-
-    <div class="container hidden" id="hr">
-        <h2>HR Management</h2>
-        <p>Attendance, Employee Records, and HR Analytics coming soon.</p>
-    </div>
-
-    <div class="container hidden" id="marketing">
-        <h2>Marketing & Advertising</h2>
-        <p>Campaign Management and Ad Insights module in development.</p>
-    </div>
-
-    <div class="container hidden" id="payroll">
-        <h2>Payroll System</h2>
-        <p>Salary Generation, Payslip Management, and Tax Computation are being built.</p>
+        <input type="file" id="file-upload" multiple>
+        <span>No file chosen</span>
+        <button onclick="uploadReports()">Upload Reports</button>
+        <p id="upload-message" class="alert-box hidden"></p>
     </div>
 
     <footer>
@@ -271,27 +249,24 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Function to navigate to different sections of the app
+        // Function to navigate between sections
         function navigateTo(section) {
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.getElementById(section).classList.remove('hidden');
         }
 
-        // Logout function
+        // Function to logout the user
         function logout() {
             currentUser = null;
             resetButtons();
             navigateTo('login');
         }
 
-        // Function to reset button visibility for various roles
+        // Function to reset button visibility
         function resetButtons() {
             document.getElementById('logoutBtn').classList.add('hidden');
             document.getElementById('adminBtn').classList.add('hidden');
             document.getElementById('crmBtn').classList.add('hidden');
-            document.getElementById('hrBtn').classList.add('hidden');
-            document.getElementById('marketingBtn').classList.add('hidden');
-            document.getElementById('payrollBtn').classList.add('hidden');
         }
 
         // Function to handle user login
@@ -302,7 +277,6 @@
             const password = document.getElementById('password').value.trim();
             const message = document.getElementById('login-message');
 
-            // Resetting message visibility
             message.classList.add('hidden');
             message.textContent = '';
 
@@ -347,20 +321,47 @@
             const uuid = document.getElementById('new-uuid').value;
             const password = document.getElementById('new-password').value;
             const role = document.getElementById('new-role').value;
-            
-            // Assign the user the defined structure
-            users[role] = { uuid, password, locked: false, attempts: 0 };
-            document.getElementById('admin-message').textContent = `${role.toUpperCase()} user created.`;
-            document.getElementById('admin-message').classList.remove('alert-box hidden');
+
+            // Assign the user the defined structure if not exists
+            if (!users[role]) {
+                users[role] = { uuid, password, locked: false, attempts: 0 };
+                document.getElementById('admin-message').textContent = `${role.toUpperCase()} user created successfully.`;
+            } else {
+                document.getElementById('admin-message').textContent = `${role.toUpperCase()} already exists.`;
+            }
+            document.getElementById('admin-message').classList.remove('hidden');
         }
 
-        // Function to run AI Analysis
-        function runAiAnalysis() {
-            const aiBox = document.getElementById('ai-alerts');
-            aiBox.innerHTML = '<p>Analyzing data using AI...</p>';
-            setTimeout(() => {
-                aiBox.innerHTML = '<div class="alert-box alert-success">AI Alert: Lead engagement is low. Consider retargeting.</div>';
-            }, 1500);
+        // Function to change admin password
+        function changePassword(event) {
+            event.preventDefault();
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-admin-password').value;
+            const message = document.getElementById('password-change-message');
+
+            // Check if current password matches admin's
+            if (users.admin.password === currentPassword) {
+                users.admin.password = newPassword;
+                message.classList.remove('hidden');
+                message.textContent = 'Password changed successfully!';
+            } else {
+                message.classList.remove('hidden');
+                message.textContent = 'Current password is incorrect!';
+            }
+        }
+
+        // Function to upload reports
+        function uploadReports() {
+            const uploadMessage = document.getElementById('upload-message');
+            const fileInput = document.getElementById('file-upload');
+
+            if (fileInput.files.length > 0) {
+                uploadMessage.classList.remove('hidden');
+                uploadMessage.textContent = 'Reports uploaded successfully!';
+            } else {
+                uploadMessage.classList.remove('hidden');
+                uploadMessage.textContent = 'No files chosen!';
+            }
         }
     </script>
 </body>
