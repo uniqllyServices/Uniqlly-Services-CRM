@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -145,6 +144,17 @@
             background: #e5e7eb;
             font-size: 0.9rem;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
     </style>
 </head>
 
@@ -182,6 +192,7 @@
 
     <div class="container hidden" id="admin">
         <h2>Admin Panel</h2>
+
         <h3>Create New User Role</h3>
         <form onsubmit="return createUser(event)">
             <label>Role</label>
@@ -211,26 +222,28 @@
 
     <div class="container hidden" id="crm">
         <h2>CRM Features</h2>
-        <ul>
-            <li>Customer Data Management</li>
-            <li>Sales Tracking and Analytics</li>
-            <li>Marketing Campaigns</li>
-            <li>Communication Tools</li>
-            <li>Lead Management</li>
-            <li>Task Management</li>
-            <li>Access Control by Role and ID</li>
-            <li>Performance Dashboards</li>
-            <li>Download Reports</li>
-        </ul>
-        <input type="file" id="file-upload" multiple>
-        <span>No file chosen</span>
-        <button onclick="uploadReports()">Upload Reports</button>
-        <p id="upload-message" class="alert-box hidden"></p>
-    </div>
 
-    <footer>
-        © 2025 Uniqlly Services. All rights reserved.
-    </footer>
+        <div class="feature">
+            <button onclick="showFeature('customerData')">Customer Data Management</button>
+            <button onclick="showFeature('salesTracking')">Sales Tracking and Analytics</button>
+            <button onclick="showFeature('marketing')">Marketing Campaigns</button>
+            <button onclick="showFeature('communication')">Communication Tools</button>
+            <button onclick="showFeature('leadManagement')">Lead Management</button>
+            <button onclick="showFeature('taskManagement')">Task Management</button>
+            <button onclick="showFeature('accessControl')">Access Control by Role and ID</button>
+            <button onclick="showFeature('performanceDashboard')">Performance Dashboards</button>
+            <button onclick="showFeature('downloadReports')">Download Reports</button>
+        </div>
+
+        <div id="feature-display" class="hidden">
+            <h3 id="feature-title"></h3>
+            <div id="feature-content"></div>
+        </div>
+
+        <footer>
+            © 2025 Uniqlly Services. All rights reserved.
+        </footer>
+    </div>
 
     <script>
         const users = {
@@ -241,7 +254,7 @@
 
         let currentUser = null;
 
-        // Function to update the clock
+        // Update the clock
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').textContent = now.toLocaleString();
@@ -249,27 +262,26 @@
         setInterval(updateClock, 1000);
         updateClock();
 
-        // Function to navigate between sections
+        // Navigate between sections
         function navigateTo(section) {
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.getElementById(section).classList.remove('hidden');
         }
 
-        // Function to logout the user
+        // Logout user
         function logout() {
             currentUser = null;
             resetButtons();
             navigateTo('login');
         }
 
-        // Function to reset button visibility
         function resetButtons() {
             document.getElementById('logoutBtn').classList.add('hidden');
             document.getElementById('adminBtn').classList.add('hidden');
             document.getElementById('crmBtn').classList.add('hidden');
         }
 
-        // Function to handle user login
+        // Handle user login
         function loginUser(event) {
             event.preventDefault();
             const role = document.getElementById('role').value;
@@ -315,7 +327,7 @@
             }
         }
 
-        // Function to create a new user from the admin panel
+        // Create a new user
         function createUser(event) {
             event.preventDefault();
             const uuid = document.getElementById('new-uuid').value;
@@ -332,14 +344,13 @@
             document.getElementById('admin-message').classList.remove('hidden');
         }
 
-        // Function to change admin password
+        // Change admin password
         function changePassword(event) {
             event.preventDefault();
             const currentPassword = document.getElementById('current-password').value;
             const newPassword = document.getElementById('new-admin-password').value;
             const message = document.getElementById('password-change-message');
 
-            // Check if current password matches admin's
             if (users.admin.password === currentPassword) {
                 users.admin.password = newPassword;
                 message.classList.remove('hidden');
@@ -350,20 +361,38 @@
             }
         }
 
-        // Function to upload reports
-        function uploadReports() {
-            const uploadMessage = document.getElementById('upload-message');
-            const fileInput = document.getElementById('file-upload');
+        // Show feature function
+        function showFeature(feature) {
+            const titleMap = {
+                customerData: "Customer Data Management",
+                salesTracking: "Sales Tracking and Analytics",
+                marketing: "Marketing Campaigns",
+                communication: "Communication Tools",
+                leadManagement: "Lead Management",
+                taskManagement: "Task Management",
+                accessControl: "Access Control by Role and ID",
+                performanceDashboard: "Performance Dashboards",
+                downloadReports: "Download Reports"
+            };
 
-            if (fileInput.files.length > 0) {
-                uploadMessage.classList.remove('hidden');
-                uploadMessage.textContent = 'Reports uploaded successfully!';
-            } else {
-                uploadMessage.classList.remove('hidden');
-                uploadMessage.textContent = 'No files chosen!';
-            }
+            const contentMap = {
+                customerData: "Manage customer data and interactions effectively.",
+                salesTracking: "Track sales performance and generate analytics.",
+                marketing: "Create and manage marketing campaigns.",
+                communication: "Tools to communicate internally and externally.",
+                leadManagement: "Manage potential sales leads and track progress.",
+                taskManagement: "Create and manage tasks for team members.",
+                accessControl: "Control user access based on role or ID.",
+                performanceDashboard: "View performance metrics and dashboards.",
+                downloadReports: "Download various reports based on data."
+            };
+
+            document.getElementById('feature-title').textContent = titleMap[feature];
+            document.getElementById('feature-content').textContent = contentMap[feature];
+
+            const featureDisplay = document.getElementById('feature-display');
+            featureDisplay.classList.remove('hidden');
         }
     </script>
 </body>
-
 </html>
