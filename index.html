@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Uniqlly Services - Enterprise System</title>
+  <title>Uniqlly Services CRM System</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: #f8fafc; color: #1f2937; transition: all 0.3s ease-in-out; }
-    header { background-color: #1d4ed8; color: white; padding: 1.5rem; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
-    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1rem; background-color: #e0e7ff; }
+    body { background: #f9fafb; color: #111827; transition: all 0.3s ease-in-out; }
+    header { background-color: #1d4ed8; color: white; padding: 1.5rem; text-align: center; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+    nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; padding: 1rem; background-color: #e0e7ff; position: sticky; top: 5rem; z-index: 999; }
     nav button { background: #3b82f6; color: white; padding: 0.6rem 1.2rem; border: none; border-radius: 0.5rem; cursor: pointer; font-weight: bold; transition: 0.3s ease-in-out; }
     nav button:hover { background-color: #2563eb; transform: scale(1.05); }
     .container { padding: 2rem; max-width: 1000px; margin: auto; background: white; border-radius: 0.75rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); margin-top: 1rem; animation: fadeIn 0.8s ease-in-out; }
@@ -22,19 +22,23 @@
     .hidden { display: none; }
     .lang-select { margin-bottom: 1rem; }
     .alert-box { padding: 1rem; border-radius: 0.5rem; background-color: #fef3c7; color: #92400e; border: 1px solid #facc15; margin-top: 1rem; }
-    .success-box { background: #dcfce7; color: #15803d; border: 1px solid #4ade80; }
+    .success-box { background: #dcfce7; color: #15803d; border: 1px solid #4ade80; padding: 0.5rem; margin-top: 1rem; border-radius: 0.5rem; }
+    #clock { text-align: right; padding-right: 1rem; font-weight: bold; color: #1e3a8a; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Uniqlly Services Enterprise Platform</h1>
+    <h1>Uniqlly Services CRM System</h1>
     <p>CRM | Marketing | Payroll | Lead Generation | HR Management</p>
+    <div id="clock"></div>
   </header>
-
   <nav>
     <button onclick="navigateTo('login')">Login</button>
     <button onclick="navigateTo('admin')" id="adminBtn" class="hidden">Admin Panel</button>
     <button onclick="navigateTo('crm')" id="crmBtn" class="hidden">CRM</button>
+    <button onclick="navigateTo('hr')" id="hrBtn" class="hidden">HR</button>
+    <button onclick="navigateTo('marketing')" id="marketingBtn" class="hidden">Marketing</button>
+    <button onclick="navigateTo('payroll')" id="payrollBtn" class="hidden">Payroll</button>
     <button onclick="logout()" id="logoutBtn" class="hidden">Logout</button>
   </nav>
 
@@ -55,15 +59,15 @@
         <option value="employee">Employee</option>
         <option value="admin">Admin</option>
       </select>
-      <label>UUID</label>
-      <input type="text" id="uuid" required>
+      <label>Email</label>
+      <input type="email" id="uuid" required>
       <label>Password</label>
       <input type="password" id="password" required>
       <button type="submit">Login</button>
     </form>
     <p id="login-message"></p>
     <div class="alert-box">
-      <strong>Security Notice:</strong> Do not share your UUID or password. All unauthorized attempts will be logged and notified to the Admin. Ensure payment activities are secure. If you notice suspicious behavior, report it immediately.
+      <strong>Security Notice:</strong> Do not share your credentials. All unauthorized attempts will be logged.
     </div>
   </div>
 
@@ -83,13 +87,13 @@
         <option value="customer">Customer</option>
         <option value="employee">Employee</option>
       </select>
-      <label>UUID</label>
-      <input type="text" id="new-uuid">
+      <label>Email</label>
+      <input type="email" id="new-uuid" required>
       <label>Password</label>
-      <input type="password" id="new-password">
-      <button>Create</button>
+      <input type="password" id="new-password" required>
+      <button type="submit">Create</button>
     </form>
-    <h3>Report Upload</h3>
+    <h3>Upload Reports</h3>
     <input type="file" id="file-upload" multiple>
     <p>Upload .xls, .doc, .pdf files up to 100MB</p>
     <p id="admin-message"></p>
@@ -99,30 +103,50 @@
     <h2>CRM Features</h2>
     <ul>
       <li>Customer Data Management</li>
-      <li>Sales Tracking and Analytics</li>
+      <li>Sales Tracking</li>
       <li>Marketing Campaigns</li>
-      <li>Communication Tools (Call/WhatsApp)</li>
+      <li>Communication Tools</li>
       <li>Lead Management</li>
-      <li>Task Management</li>
-      <li>Access Control</li>
-      <li>Performance Dashboards</li>
-      <li>Report Generation & Download</li>
+      <li>Task Scheduling</li>
     </ul>
-    <button onclick="alert('Downloading report...')">Download Report</button>
+    <button onclick="runAiAnalysis()">Run AI Analysis</button>
+    <div id="ai-alerts"></div>
+  </div>
+
+  <div class="container hidden" id="hr">
+    <h2>HR Management</h2>
+    <p>Attendance, Employee Records, and HR Analytics coming soon.</p>
+  </div>
+
+  <div class="container hidden" id="marketing">
+    <h2>Marketing & Advertising</h2>
+    <p>Campaign Management and Ad Insights module in development.</p>
+  </div>
+
+  <div class="container hidden" id="payroll">
+    <h2>Payroll System</h2>
+    <p>Salary Generation, Payslip Management, and Tax Computation are being built.</p>
   </div>
 
   <footer>
-    &copy; 2025 Uniqlly Services. All rights reserved. | Designed for secure enterprise use.
+    &copy; 2025 Uniqlly Services. All rights reserved.
   </footer>
 
   <script>
     const users = {
-      admin: { uuid: 'admin123', password: 'admin@123', locked: false, attempts: 0 },
-      employee: { uuid: 'emp001', password: 'emp@2025', locked: false, attempts: 0 },
-      customer: { uuid: 'cust001', password: 'cust@2025', locked: false, attempts: 0 }
+      admin: { uuid: 'uniqllyservices@gmail.com', password: 'Admin@123', locked: false, attempts: 0 },
+      employee: { uuid: 'emp001@gmail.com', password: 'emp@2025', locked: false, attempts: 0 },
+      customer: { uuid: 'cust001@gmail.com', password: 'cust@2025', locked: false, attempts: 0 }
     };
 
     let currentUser = null;
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
     function navigateTo(section) {
       document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
@@ -131,37 +155,41 @@
 
     function logout() {
       currentUser = null;
-      alert('Logged out successfully.');
       document.getElementById('logoutBtn').classList.add('hidden');
       document.getElementById('adminBtn').classList.add('hidden');
       document.getElementById('crmBtn').classList.add('hidden');
+      document.getElementById('hrBtn').classList.add('hidden');
+      document.getElementById('marketingBtn').classList.add('hidden');
+      document.getElementById('payrollBtn').classList.add('hidden');
       navigateTo('login');
     }
 
     function loginUser(event) {
       event.preventDefault();
       const role = document.getElementById('role').value;
-      const uuid = document.getElementById('uuid').value;
-      const password = document.getElementById('password').value;
+      const uuid = document.getElementById('uuid').value.trim();
+      const password = document.getElementById('password').value.trim();
       const message = document.getElementById('login-message');
 
       if (users[role].locked) {
         message.style.color = 'red';
-        message.textContent = 'Account locked. Contact Admin.';
+        message.textContent = 'Account locked. Contact admin.';
         return;
       }
 
       if (users[role].uuid === uuid && users[role].password === password) {
         currentUser = role;
         users[role].attempts = 0;
-        message.classList.add('success-box');
-        message.style.color = '#15803d';
-        message.textContent = 'Login successful. Redirecting...';
+        message.textContent = 'Login successful.';
         setTimeout(() => {
           message.textContent = '';
           document.getElementById('logoutBtn').classList.remove('hidden');
           if (role === 'admin') {
             document.getElementById('adminBtn').classList.remove('hidden');
+            document.getElementById('crmBtn').classList.remove('hidden');
+            document.getElementById('hrBtn').classList.remove('hidden');
+            document.getElementById('marketingBtn').classList.remove('hidden');
+            document.getElementById('payrollBtn').classList.remove('hidden');
             navigateTo('admin');
           } else {
             document.getElementById('crmBtn').classList.remove('hidden');
@@ -172,32 +200,32 @@
         users[role].attempts += 1;
         if (users[role].attempts >= 3) {
           users[role].locked = true;
-          alert('Unauthorized access detected. Admin notified.');
+          alert('Account locked due to too many failed attempts. Contact admin.');
         }
         message.style.color = 'red';
-        message.textContent = 'Invalid login credentials.';
+        message.textContent = 'Invalid credentials.';
       }
     }
 
     function createUser(event) {
       event.preventDefault();
-      const role = document.getElementById('new-role').value;
       const uuid = document.getElementById('new-uuid').value;
       const password = document.getElementById('new-password').value;
-      const message = document.getElementById('admin-message');
-
-      if (uuid && password) {
-        users[role] = { uuid, password, locked: false, attempts: 0 };
-        message.style.color = 'green';
-        message.textContent = `${role.toUpperCase()} created successfully.`;
-      } else {
-        message.style.color = 'red';
-        message.textContent = 'UUID and password are required.';
-      }
+      const role = document.getElementById('new-role').value;
+      users[role] = { uuid, password, locked: false, attempts: 0 };
+      document.getElementById('admin-message').textContent = `${role.toUpperCase()} user created.`;
     }
 
     function changeLang(lang) {
-      alert(`Language changed to ${lang}. Translate system will activate.`);
+      alert(`Language set to ${lang}`);
+    }
+
+    function runAiAnalysis() {
+      const aiBox = document.getElementById('ai-alerts');
+      aiBox.innerHTML = '<p>Analyzing data using AI...</p>';
+      setTimeout(() => {
+        aiBox.innerHTML = '<div class="alert-box">AI Alert: Lead engagement is low. Consider retargeting.</div>';
+      }, 1500);
     }
   </script>
 </body>
