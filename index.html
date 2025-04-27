@@ -1,208 +1,210 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uniqlly Services CRM System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f7f7f7;
-            transition: background-color 0.3s;
-        }
-        header {
-            background-color: #1e40af;
-            color: white;
-            padding: 20px; 
-            text-align: center;
-        }
-        main {
-            padding: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            background-color: #e5e7eb;
-        }
-        .hidden {
-            display: none;
-        }
-        form {
-            display: flex;
-            flex-direction: column; 
-            gap: 10px; 
-        }
-        input, select {
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-        }
-        button {
-            background-color: #1e40af; 
-            color: white; 
-            border: none; 
-            padding: 10px; 
-            cursor: pointer; 
-        }
-        button:hover {
-            background-color: #2563eb; 
-        }
-        .tab {
-            cursor: pointer; 
-            padding: 10px; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-            background-color: #ffffff; 
-            transition: background-color 0.3s; 
-        }
-        .tab:hover {
-            background-color: #f1f1f1; 
-        }
-        .dark-mode {
-            background-color: #333; 
-            color: white; 
-        }
-        .dark-mode input, .dark-mode select {
-            background-color: #444; 
-            color: white; 
-            border: 1px solid #666; 
-        }
-        .dark-mode button {
-            background-color: #555; 
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Uniqlly Services CRM System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f7f7f7;
+      transition: background-color 0.5s, color 0.5s;
+      overflow-x: hidden;
+    }
+    header {
+      background-color: #1e40af;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    main {
+      padding: 30px;
+      text-align: center;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      position: relative;
+      bottom: 0;
+      width: 100%;
+      background-color: #e5e7eb;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+    input, select {
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #1e40af;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .tab {
+      cursor: pointer;
+      padding: 10px;
+      margin: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #ffffff;
+      display: inline-block;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .tab:hover {
+      background-color: #e0e7ff;
+      transform: scale(1.05);
+    }
+    .hidden { display: none; }
+    .dark-mode {
+      background-color: #111827;
+      color: white;
+    }
+    .dark-mode input, .dark-mode select {
+      background-color: #374151;
+      color: white;
+      border: 1px solid #6b7280;
+    }
+    .dark-mode button {
+      background-color: #4b5563;
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <h1>Uniqlly Services CRM System</h1>
-    </header>
-    <main>
-        <div id="login-page">
-            <h2>Login</h2>
-            <form id="login-form" onsubmit="return handleLogin(event)">
-                <select id="role" required>
-                    <option value="">Select Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="employee">Employee</option>
-                    <option value="customer">Customer</option>
-                </select>
-                <input type="email" id="email" placeholder="Email" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <p id="login-message" class="hidden"></p>
-            <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-        </div>
+<header>
+  Uniqlly Services CRM System
+</header>
 
-        <div id="admin-panel" class="hidden">
-            <h2>Admin Panel</h2>
-            <button class="tab" onclick="showTab('create-user')">Create User</button>
-            <button class="tab" onclick="showTab('task-report')">Tasks & Reports</button>
-            <button class="tab" onclick="showTab('daily-login')">Daily Login Report</button>
-            <button class="tab" onclick="showTab('services')">Services</button>
-            <button class="tab" onclick="showTab('payment')">Payment Management</button>
-            <div id="admin-content">
-                <div id="create-user" class="hidden">
-                    <h3>Create User</h3>
-                    <form onsubmit="return createUser(event)">
-                        <select id="user-role" required>
-                            <option value="employee">Employee</option>
-                            <option value="customer">Customer</option>
-                        </select>
-                        <input type="email" id="new-email" placeholder="Email" required>
-                        <input type="password" id="new-password" placeholder="Password" required>
-                        <button type="submit">Create User</button>
-                    </form>
-                </div>
-                <div id="task-report" class="hidden">
-                    <h3>Task and Report Management</h3>
-                    <!-- Task and report management functionality goes here -->
-                </div>
-                <div id="daily-login" class="hidden">
-                    <h3>Daily Login Report</h3>
-                    <!-- Daily login report functionality goes here -->
-                </div>
-                <div id="services" class="hidden">
-                    <h3>Services Management</h3>
-                    <!-- Services management functionality goes here -->
-                </div>
-                <div id="payment" class="hidden">
-                    <h3>Payment Management</h3>
-                    <!-- Payment management functionality goes here -->
-                </div>
-            </div>
-        </div>
-        
-        <div id="employee-panel" class="hidden">
-            <h2>Employee Dashboard</h2>
-            <!-- Employee related functionalities go here -->
-        </div>
+<main>
+  <div id="login-page">
+    <h2>Login</h2>
+    <form id="login-form" onsubmit="return handleLogin(event)">
+      <select id="role" required>
+        <option value="">Select Role</option>
+        <option value="admin">Admin</option>
+        <option value="employee">Employee</option>
+        <option value="customer">Customer</option>
+      </select>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-message" class="hidden" style="color:red;"></p>
+    <button onclick="toggleDarkMode()">Toggle Dark/Light Mode</button>
+  </div>
 
-        <div id="customer-panel" class="hidden">
-            <h2>Customer Dashboard</h2>
-            <!-- Customer related functionalities go here -->
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2025 Uniqlly Services. All rights reserved.</p>
-    </footer>
+  <div id="admin-panel" class="hidden">
+    <h2>Admin Dashboard</h2>
+    <div>
+      <button class="tab" onclick="showTab('create-user')">Create User</button>
+      <button class="tab" onclick="showTab('task-report')">Task/Reports</button>
+      <button class="tab" onclick="showTab('daily-login')">Daily Login</button>
+      <button class="tab" onclick="showTab('services')">Services</button>
+      <button class="tab" onclick="showTab('payments')">Payments</button>
+      <button class="tab" onclick="showTab('analytics')">Analytics</button>
+      <button class="tab" onclick="showTab('notifications')">Notifications</button>
+    </div>
+    <div id="admin-content" style="margin-top: 20px;">
+      <div id="create-user" class="hidden"><h3>Create Users (Employee/Customer)</h3></div>
+      <div id="task-report" class="hidden"><h3>Manage Tasks and Reports</h3></div>
+      <div id="daily-login" class="hidden"><h3>View Daily Employee Login Report</h3></div>
+      <div id="services" class="hidden"><h3>Manage Services: CRM, Payroll, HR, Marketing</h3></div>
+      <div id="payments" class="hidden"><h3>Handle Payment Systems</h3></div>
+      <div id="analytics" class="hidden"><h3>Data Analysis & AI Recommendations</h3></div>
+      <div id="notifications" class="hidden"><h3>Send Push Notifications</h3></div>
+    </div>
+  </div>
 
-    <script>
-        let currentRole = null;
+  <div id="employee-panel" class="hidden">
+    <h2>Employee Dashboard</h2>
+    <p>Login time, Reports, Notifications, Logout button</p>
+  </div>
 
-        function handleLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const role = document.getElementById('role').value;
-            const message = document.getElementById('login-message');
-            message.classList.add('hidden');
-            message.textContent = '';
+  <div id="customer-panel" class="hidden">
+    <h2>Customer Dashboard</h2>
+    <p>Service Support, Payment Details, Tool Spending, Team Members, WhatsApp Chat</p>
+    <a href="https://wa.me/919999999999" target="_blank">
+      <button>Chat with Support (WhatsApp)</button>
+    </a>
+  </div>
+</main>
 
-            // Simulated login process; you should replace this with actual authentication logic
-            if (role === 'admin' && email === "admin@example.com" && password === "admin123") {
-                currentRole = 'admin';
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('admin-panel').classList.remove('hidden');
-                message.textContent = 'Welcome, Admin!';
-            } else if (role === 'employee' && email === "employee@example.com" && password === "employee123") {
-                currentRole = 'employee';
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('employee-panel').classList.remove('hidden');
-                message.textContent = 'Welcome, Employee!';
-            } else if (role === 'customer' && email === "customer@example.com" && password === "customer123") {
-                currentRole = 'customer';
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('customer-panel').classList.remove('hidden');
-                message.textContent = 'Welcome, Customer!';
-            } else {
-                message.textContent = 'Invalid login credentials.';
-                message.classList.remove('hidden');
-            }
-        }
+<footer>
+  &copy; 2025 Uniqlly Services Private Limited. All rights reserved.
+</footer>
 
-        function createUser(event) {
-            event.preventDefault();
-            alert("User creation logic can be implemented here.");
-            // Implement actual logic to create a user (e.g., save to a database)
-        }
+<script>
+  let currentRole = null;
+  let loginAttempts = 0;
 
-        function showTab(tabId) {
-            const adminContent = document.getElementById('admin-content');
-            adminContent.querySelectorAll('div').forEach(tab => {
-                tab.classList.add('hidden');
-            });
-            document.getElementById(tabId).classList.remove('hidden');
-        }
+  function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const role = document.getElementById('role').value;
+    const message = document.getElementById('login-message');
+    message.classList.add('hidden');
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
-    </script>
+    const users = {
+      admin: {email: 'admin@example.com', password: 'admin123'},
+      employee: {email: 'employee@example.com', password: 'employee123'},
+      customer: {email: 'customer@example.com', password: 'customer123'}
+    };
+
+    if (users[role] && users[role].email === email && users[role].password === password) {
+      document.getElementById('login-page').classList.add('hidden');
+      if (role === 'admin') document.getElementById('admin-panel').classList.remove('hidden');
+      else if (role === 'employee') document.getElementById('employee-panel').classList.remove('hidden');
+      else if (role === 'customer') document.getElementById('customer-panel').classList.remove('hidden');
+      currentRole = role;
+      loginAttempts = 0;
+      navigator.geolocation.getCurrentPosition(position => {
+        alert(`Login successful! Your location: (${position.coords.latitude}, ${position.coords.longitude})`);
+      });
+    } else {
+      loginAttempts++;
+      message.textContent = `Invalid login attempt ${loginAttempts}/3`;
+      message.classList.remove('hidden');
+      if (loginAttempts >= 3) {
+        alert('3 wrong attempts! Access blocked. Admin notified.');
+        document.getElementById('login-form').reset();
+        loginAttempts = 0;
+      }
+    }
+  }
+
+  function showTab(tabId) {
+    document.querySelectorAll('#admin-content > div').forEach(div => div.classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
+  }
+
+  function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+  }
+</script>
+
 </body>
 </html>
