@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f7f7;
+        }
+        header {
+            background-color: #1e40af;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        .tab {
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff;
+            margin-right: 5px;
+            transition: background-color 0.3s;
+        }
+        .tab:hover {
+            background-color: #f1f1f1;
+        }
+        .tab.active {
+            background-color: #1e40af;
+            color: white;
+        }
+        .hidden {
+            display: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard - Uniqlly Services</h1>
+    </header>
+
+    <main>
+        <div id="admin-dashboard">
+            <div>
+                <button class="tab active" onclick="showTab('create-user')">Create User</button>
+                <button class="tab" onclick="showTab('task-report')">Task/Reports</button>
+                <button class="tab" onclick="showTab('daily-login')">Daily Login</button>
+                <button class="tab" onclick="showTab('services')">Services</button>
+                <button class="tab" onclick="showTab('payments')">Payments</button>
+                <button class="tab" onclick="showTab('analytics')">Analytics</button>
+                <button class="tab" onclick="showTab('notifications')">Notifications</button>
+            </div>
+
+            <div id="admin-content">
+                <!-- Create User Section -->
+                <div id="create-user">
+                    <h3>Create User</h3>
+                    <form onsubmit="return createUser(event)">
+                        <select id="user-role" required>
+                            <option value="employee">Employee</option>
+                            <option value="customer">Customer</option>
+                        </select>
+                        <input type="email" id="new-email" placeholder="Email" required>
+                        <input type="password" id="new-password" placeholder="Password" required>
+                        <button type="submit">Create User</button>
+                    </form>
+                </div>
+
+                <!-- Task/Reports Section -->
+                <div id="task-report" class="hidden">
+                    <h3>Task/Reports</h3>
+                    <p>Manage tasks and view reports here.</p>
+                </div>
+
+                <!-- Daily Login Section -->
+                <div id="daily-login" class="hidden">
+                    <h3>Daily Login</h3>
+                    <p>View daily login report of employees.</p>
+                </div>
+
+                <!-- Services Section -->
+                <div id="services" class="hidden">
+                    <h3>Services</h3>
+                    <ul>
+                        <li>Marketing Advice</li>
+                        <li>Payroll Management</li>
+                        <li>Lead Generation</li>
+                        <li>CRM Management</li>
+                        <li>HR Consulting</li>
+                    </ul>
+                </div>
+
+                <!-- Payments Section -->
+                <div id="payments" class="hidden">
+                    <h3>Payments</h3>
+                    <p>Manage and view payment details here.</p>
+                </div>
+
+                <!-- Analytics Section -->
+                <div id="analytics" class="hidden">
+                    <h3>Analytics</h3>
+                    <p>View detailed reports and analytics here.</p>
+                </div>
+
+                <!-- Notifications Section -->
+                <div id="notifications" class="hidden">
+                    <h3>Notifications</h3>
+                    <p>View system notifications.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Function to switch between tabs
+        function showTab(tabId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('#admin-content > div');
+            sections.forEach(section => {
+                section.classList.add('hidden');
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show the selected section
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Set the clicked tab as active
+            document.querySelector(`button[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Create User Function
+        function createUser(event) {
+            event.preventDefault();
+            const email = document.getElementById('new-email').value;
+            const password = document.getElementById('new-password').value;
+            const role = document.getElementById('user-role').value;
+
+            // Simulate user creation logic
+            alert(`User created: ${email}, Role: ${role}`);
+
+            // Reset the form
+            document.getElementById('new-email').value = '';
+            document.getElementById('new-password').value = '';
+        }
+
+        // Initialize with Create User Tab
+        showTab('create-user');
+    </script>
+</body>
+</html>
